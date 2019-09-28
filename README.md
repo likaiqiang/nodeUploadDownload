@@ -1,0 +1,1 @@
+项目根目录新建upload 文件夹 npm run start

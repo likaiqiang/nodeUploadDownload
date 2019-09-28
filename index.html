@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="file" id="uploadFile">
+        <img id="show" src="" alt="">
+    </div>
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+    <script>
+        var uploadFile = document.getElementById('uploadFile')
+        uploadFile.addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            let param = new FormData(); //创建form对象
+            param.append('file', file);
+
+            axios({
+                url: '/upload',
+                method: 'post',
+                data: param,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                responseType: 'arraybuffer'
+            }).then(res => {
+                //res.data
+                show.src = 'data:image/png;base64,' + btoa(new Uint8Array(res.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
+            })
+        })
+    </script>
+</body>
+
+</html>
